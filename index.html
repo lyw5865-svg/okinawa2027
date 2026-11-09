@@ -13,6 +13,8 @@
 .flight-notes{margin-top:12px}
 @media(max-width:650px){.flight-grid{grid-template-columns:1fr}}
 .weather-note{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 16px;padding:12px 14px}.weather-note a{font-weight:700;padding:8px 0}
+.weather-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,175px),1fr));gap:10px}
+.weather-card p{margin:4px 0}.weather-card h3{margin-top:5px}.weather-selected{border:2px solid #365e57;background:#eaf4ec}
 </style><header><div class="brand">島日和 <span class="tiny">OKINAWA JOURNAL</span></div><span>2027 春節 · 家族慢旅</span></header><main><section class="hero"><div><div class="tiny">FEBRUARY 05 — 10, 2027</div><h1>把日子放慢，<br>一起去沖繩。</h1><p class="muted">8 位大人的春節旅行手帳，為每一次停留留點餘裕。</p></div><div class="heroArt" aria-label="沖繩海島插畫"><div class="sun"></div><div class="sea"></div><div class="island"></div><div class="artLabel">海と、桜と、家族。</div></div></section><div class="stats trip-stats">
   <div><span class="muted">旅程</span><b>6 天 5 夜</b></div>
   <div><span class="muted">租車時間</span><b>2/5 12:00 → 2/9 18:00</b></div>
@@ -76,7 +78,7 @@ add(5,'抵達那霸機場國際線／報到',115,30,'在國際線入口下客，
 add(5,'08:40 日本越洋航空 NU301 起飛',0,0,'由那霸機場國際線出發','09:15 抵達桃園第 2 航廈（台灣時間），飛行 1 小時 35 分。','已確定');
 initial.items.at(-1).start = '08:40';
 
-let data;try{data=JSON.parse(localStorage.getItem('okinawa27'))||structuredClone(initial)}catch{data=structuredClone(initial)}let day=0,tab=0,editing=null;const tabs=['每日行程','住宿與租車','備份與說明'];function save(){try{localStorage.setItem('okinawa27',JSON.stringify(data))}catch{alert('儲存失敗，請匯出備份')}render()}function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function tm(n){return (n>=1440?'次日 ':'')+String(Math.floor(n/60)%24).padStart(2,'0')+':'+String(n%60).padStart(2,'0')}function list(){return data.items.filter(x=>x.day===day)}function place(x){return x.place||({'八重岳賞櫻':'沖縄 八重岳','岸本食堂 八重岳店｜午餐':'沖縄 きしもと食堂 八重岳店','嘉手納道之驛｜短停':'沖縄 道の駅かでな','hoppepan 買麵包':'沖縄 hoppepan','HIYORI Ocean Resort 入住與休息':'HIYORI Ocean Resort Okinawa','EXES 那霸入住與休息':'Okinawa EXES Naha','晚餐｜ぱいかじ 恩納店':'沖縄 ぱいかじ 恩納店','PARCO CITY':'沖縄 PARCO CITY','新都心／DFS':'沖縄 DFS 那覇','簡單午餐｜嘉手納驛之館候選':'沖縄 嘉手納 道の駅','晚餐｜ぱいかじ 恩納店候選':'沖縄 ぱいかじ 恩納店'}[x.title])||''}function maps(){let a=list().map(place).filter(Boolean);if(a.length<2)return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(a[0]||'沖縄');return 'https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent('沖縄 '+a[0])+'&destination='+encodeURIComponent('沖縄 '+a.at(-1))+'&waypoints='+encodeURIComponent(a.slice(1,-1).map(x=>'沖縄 '+x).join('|'))+'&travelmode=driving'}
+let data;try{data=JSON.parse(localStorage.getItem('okinawa27'))||structuredClone(initial)}catch{data=structuredClone(initial)}let day=0,tab=0,editing=null;const tabs=['每日行程','天氣','住宿與租車','備份與說明'];function save(){try{localStorage.setItem('okinawa27',JSON.stringify(data))}catch{alert('儲存失敗，請匯出備份')}render()}function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function tm(n){return (n>=1440?'次日 ':'')+String(Math.floor(n/60)%24).padStart(2,'0')+':'+String(n%60).padStart(2,'0')}function list(){return data.items.filter(x=>x.day===day)}function place(x){return x.place||({'八重岳賞櫻':'沖縄 八重岳','岸本食堂 八重岳店｜午餐':'沖縄 きしもと食堂 八重岳店','嘉手納道之驛｜短停':'沖縄 道の駅かでな','hoppepan 買麵包':'沖縄 hoppepan','HIYORI Ocean Resort 入住與休息':'HIYORI Ocean Resort Okinawa','EXES 那霸入住與休息':'Okinawa EXES Naha','晚餐｜ぱいかじ 恩納店':'沖縄 ぱいかじ 恩納店','PARCO CITY':'沖縄 PARCO CITY','新都心／DFS':'沖縄 DFS 那覇','簡單午餐｜嘉手納驛之館候選':'沖縄 嘉手納 道の駅','晚餐｜ぱいかじ 恩納店候選':'沖縄 ぱいかじ 恩納店'}[x.title])||''}function maps(){let a=list().map(place).filter(Boolean);if(a.length<2)return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(a[0]||'沖縄');return 'https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent('沖縄 '+a[0])+'&destination='+encodeURIComponent('沖縄 '+a.at(-1))+'&waypoints='+encodeURIComponent(a.slice(1,-1).map(x=>'沖縄 '+x).join('|'))+'&travelmode=driving'}
 function applyNewPlan(){
   if (!confirm('以新版預設取代目前瀏覽器的行程？班機備註會保留，原有的景點與備註請先匯出備份。')) return;
   const previous = data;
@@ -94,10 +96,115 @@ function render(){
   outboundFlight.value = flightNote(data.outboundFlight);
   returnFlight.value = data.returnFlight ?? '';
   document.getElementById('tabs').innerHTML=tabs.map((x,i)=>`<button class="${i===tab?'active':''}" onclick="tab=${i};render()">${x}</button>`).join('');let c=document.getElementById('content');if(tab===0){let t=Number(data.days[day][2]);let cards=list().map((x,i)=>{t+=Number(x.travel);if(x.start)t=x.start.split(':').reduce((a,b,i)=>a+Number(b)*(i?1:60),0);let start=t;t+=Number(x.duration);return `<div class="entry"><div class="time">${tm(start)}<div class="muted">${tm(t)}</div></div><div class="card"><div class="row"><h3>${esc(x.title)}</h3><span class="tag ${x.status==='已確定'?'ok':''}">${esc(x.status)}</span></div><div class="muted">停留 ${x.duration} 分鐘 · 前段移動 ${x.travel} 分鐘（估）</div><div class="note">♿ ${esc(x.access)}</div><p class="muted">${esc(x.note)}</p>${day===4&&x.title.includes('完成還車')&&t>1080?'<p style="color:#b54b39">⚠ 排程超出 18:00 還車期限，請縮短前面行程。</p>':''}<div class="tools"><button onclick="edit('${x.id}')">編輯</button><button aria-label="上移" onclick="move('${x.id}',-1)">↑</button><button aria-label="下移" onclick="move('${x.id}',1)">↓</button><button onclick="removeItem('${x.id}')">刪除</button><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place(x)||'沖縄')}" target="_blank" rel="noopener">地圖 ↗</a></div></div></div>`}).join('');c.innerHTML=`<div class="dates">${data.days.map((d,i)=>`<button class="${day===i?'active':''}" onclick="day=${i};render()"><span class="tiny">DAY 0${i+1}</span><strong>${esc(d[0].slice(5).replace('-',' / '))}</strong><span class="muted">${esc(d[1])}</span></button>`).join('')}</div><div class="layout"><section><div class="row"><div><span class="tiny">YOUR DAILY PLAN</span><h2>${esc(data.days[day][1])}</h2></div><button onclick="edit(null)">＋ 新增一站</button></div><div class="row"><label>日期 <input type="date" value="${esc(data.days[day][0])}" onchange="data.days[day][0]=this.value;save()"></label><label>今日起點 <input type="time" value="${tm(Number(data.days[day][2]))}" onchange="data.days[day][2]=this.value.split(':').reduce((a,b,i)=>a+Number(b)*(i?1:60),0);save()"></label></div><div class="note weather-note">
-  <div><strong>每日天氣</strong><br><span class="muted">沖繩本島｜請在官方頁面查看當日預報</span></div>
-  <a href="https://www.jma.go.jp/bosai/forecast/#area_type=offices&amp;area_code=471000" target="_blank" rel="noopener noreferrer">日本氣象廳 ↗</a>
-</div><p class="muted">修改起點、車程或停留時間，後續站點自動更新；選填的指定開始時間會固定，請留意衝突。</p>${cards||'<p>今天尚無行程，新增一站開始安排。</p>'}</section><aside><div class="panel"><div class="tiny">ROUTE OVERVIEW</div><h2>今天怎麼走</h2><div class="route">${list().map((x,i)=>`<span>${i+1} · ${esc(x.title.split('｜')[0])}</span>`).join(' → ')}</div><iframe title="當日區域地圖" loading="lazy" src="https://maps.google.com/maps?q=${encodeURIComponent(day<2?'沖縄 '+(day===1?'八重岳':'恩納村'):'沖縄 那覇')}&output=embed"></iframe><p class="muted">區域地圖供定位；導航僅包含已填地點的站點，未定住宿、餐廳與站點不納入。地址與車程待確認。</p><a href="${maps()}" target="_blank" rel="noopener">Google 地圖：已填地點的移動順序 ↗</a></div><div class="panel"><div class="tiny">SLOW TRAVEL</div><h2>把體力留給喜歡的事</h2><p>長輩使用助行車。每站先確認下客點、座位、洗手間與電梯。</p><div class="note">建議每 45–60 分鐘安排坐下休息；不舒服時可直接回飯店。</div></div><div class="panel"><h3>可替換／休息候選</h3><select class="full" id="alternative"><option>直接回飯店休息</option><option>超市／商場內休息</option><option>嘉手納驛之館</option><option>讀谷短暫停留</option><option>美國村短暫停留</option><option>琉貿百貨用餐</option></select><p class="muted">新增為「待確認」，可再上移到希望的位置。</p><button class="full" onclick="addAlternative()">加入今日候選</button></div></aside></div>`}else if(tab===1){c.innerHTML=`<div class="layout"><div class="panel"><h2>住得舒服，移動輕鬆</h2><label>2/5–2/7 北部住宿<input value="${esc(data.stayNorth)}" onchange="data.stayNorth=this.value;save()"></label><label>2/7–2/10 那霸住宿<input value="${esc(data.stayNaha)}" onchange="data.stayNaha=this.value;save()"></label><label>租車與訂單備註<textarea onchange="data.car=this.value;save()">${esc(data.car)}</textarea></label><p>租車條件：2027/2/5 12:00–2/9 18:00</p><p class="tag">住宿已安排。實際入住時間、取還車細節與車款待確認。</p></div><div class="panel"><h2>預訂前確認</h2><p class="check">8 位成人＋行李＋助行車的實際裝載空間</p><p class="check">長輩上下車高度、扶手與下客動線</p><p class="check">飯店電梯、停車場及無階梯入口</p><p class="check">還車店、加油要求、機場接駁與春節營業</p><p class="muted">此處是待辦提醒，尚未代表設施已確認。</p></div></div>`}else{c.innerHTML=`<div class="panel"><h2>自己的行程，隨時調整</h2><p>① 選日期 → ② 編輯站點或停留長度 → ③ 後面行程自動重排。</p><p>上、下箭頭調整景點順序；編輯內的日期選單可以把景點移到另一天。</p><p>資料保存在目前瀏覽器，跨裝置請匯出後匯入。網站目前沒有多人即時共編。</p><div class="tools"><button onclick="exportData()">匯出 JSON 備份</button><button onclick="document.getElementById('importFile').click()">匯入備份</button><button onclick="if(confirm('將清除目前修改，恢復初始行程？')){data=structuredClone(initial);save()}">恢復初始行程</button></div><h3>安排狀態</h3><p>已知旅行條件與固定時間已保留；餐廳、路線、花況、無障礙設施與營業時間仍須確認。每日時間是可調整的草案，並非預約紀錄。</p></div>`}}
+  <div><strong>每日天氣</strong><br><span class="muted">沖繩本島｜日本氣象廳預報</span></div>
+  <button type="button" onclick="openWeather()">查看天氣 →</button>
+</div><p class="muted">修改起點、車程或停留時間，後續站點自動更新；選填的指定開始時間會固定，請留意衝突。</p>${cards||'<p>今天尚無行程，新增一站開始安排。</p>'}</section><aside><div class="panel"><div class="tiny">ROUTE OVERVIEW</div><h2>今天怎麼走</h2><div class="route">${list().map((x,i)=>`<span>${i+1} · ${esc(x.title.split('｜')[0])}</span>`).join(' → ')}</div><iframe title="當日區域地圖" loading="lazy" src="https://maps.google.com/maps?q=${encodeURIComponent(day<2?'沖縄 '+(day===1?'八重岳':'恩納村'):'沖縄 那覇')}&output=embed"></iframe><p class="muted">區域地圖供定位；導航僅包含已填地點的站點，未定住宿、餐廳與站點不納入。地址與車程待確認。</p><a href="${maps()}" target="_blank" rel="noopener">Google 地圖：已填地點的移動順序 ↗</a></div><div class="panel"><div class="tiny">SLOW TRAVEL</div><h2>把體力留給喜歡的事</h2><p>長輩使用助行車。每站先確認下客點、座位、洗手間與電梯。</p><div class="note">建議每 45–60 分鐘安排坐下休息；不舒服時可直接回飯店。</div></div><div class="panel"><h3>可替換／休息候選</h3><select class="full" id="alternative"><option>直接回飯店休息</option><option>超市／商場內休息</option><option>嘉手納驛之館</option><option>讀谷短暫停留</option><option>美國村短暫停留</option><option>琉貿百貨用餐</option></select><p class="muted">新增為「待確認」，可再上移到希望的位置。</p><button class="full" onclick="addAlternative()">加入今日候選</button></div></aside></div>`}else if(tab===weatherTab){
+  c.innerHTML=weatherPage();
+  if(!forecast && !weatherLoading && !weatherError) loadWeather();
+}else if(tab===2){c.innerHTML=`<div class="layout"><div class="panel"><h2>住得舒服，移動輕鬆</h2><label>2/5–2/7 北部住宿<input value="${esc(data.stayNorth)}" onchange="data.stayNorth=this.value;save()"></label><label>2/7–2/10 那霸住宿<input value="${esc(data.stayNaha)}" onchange="data.stayNaha=this.value;save()"></label><label>租車與訂單備註<textarea onchange="data.car=this.value;save()">${esc(data.car)}</textarea></label><p>租車條件：2027/2/5 12:00–2/9 18:00</p><p class="tag">住宿已安排。實際入住時間、取還車細節與車款待確認。</p></div><div class="panel"><h2>預訂前確認</h2><p class="check">8 位成人＋行李＋助行車的實際裝載空間</p><p class="check">長輩上下車高度、扶手與下客動線</p><p class="check">飯店電梯、停車場及無階梯入口</p><p class="check">還車店、加油要求、機場接駁與春節營業</p><p class="muted">此處是待辦提醒，尚未代表設施已確認。</p></div></div>`}else{c.innerHTML=`<div class="panel"><h2>自己的行程，隨時調整</h2><p>① 選日期 → ② 編輯站點或停留長度 → ③ 後面行程自動重排。</p><p>上、下箭頭調整景點順序；編輯內的日期選單可以把景點移到另一天。</p><p>資料保存在目前瀏覽器，跨裝置請匯出後匯入。網站目前沒有多人即時共編。</p><div class="tools"><button onclick="exportData()">匯出 JSON 備份</button><button onclick="document.getElementById('importFile').click()">匯入備份</button><button onclick="if(confirm('將清除目前修改，恢復初始行程？')){data=structuredClone(initial);save()}">恢復初始行程</button></div><h3>安排狀態</h3><p>已知旅行條件與固定時間已保留；餐廳、路線、花況、無障礙設施與營業時間仍須確認。每日時間是可調整的草案，並非預約紀錄。</p></div>`}}
 function edit(id){editing=id;let x=data.items.find(i=>i.id===id)||{day,title:'',duration:60,travel:15,status:'待確認',access:'步行距離、階梯與電梯待確認',note:''};form.elements.day.innerHTML=data.days.map((d,i)=>`<option value="${i}">${esc(d[0])}</option>`).join('');for(let k of ['day','title','duration','travel','status','access','note','start','place'])form.elements[k].value=x[k]??'';editor.showModal()}form.onsubmit=e=>{e.preventDefault();let x=Object.fromEntries(new FormData(form));for(let k of ['day','duration','travel'])x[k]=Number(x[k]);x.id=editing||crypto.randomUUID();if(editing){const index=data.items.findIndex(i=>i.id===editing);data.items[index]={...data.items[index],...x};}else data.items.push(x);editor.close();save()};function move(id,n){let a=list(),i=a.findIndex(x=>x.id===id);if(!a[i+n])return;let p=data.items.indexOf(a[i]),q=data.items.indexOf(a[i+n]);[data.items[p],data.items[q]]=[data.items[q],data.items[p]];save()}function removeItem(id){if(confirm('刪除此站？')){data.items=data.items.filter(x=>x.id!==id);save()}}function addAlternative(){data.items.push({id:crypto.randomUUID(),day,title:document.getElementById('alternative').value,duration:60,travel:20,status:'待確認',access:'步行、階梯、座位與停車待確認',note:'替換候選，加入後請調整順序與時間'});save()}function exportData(){let u=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));let a=document.createElement('a');a.href=u;a.download='okinawa-2027.json';a.click();URL.revokeObjectURL(u)}document.getElementById('importFile').onchange=async e=>{try{let x=JSON.parse(await e.target.files[0].text());if(!Array.isArray(x.days)||x.days.length!==6||!x.days.every(d=>Array.isArray(d)&&/^\d{4}-\d{2}-\d{2}$/.test(d[0])&&Number.isFinite(Number(d[2])))||!Array.isArray(x.items)||!x.items.every(i=>Number.isInteger(i.day)&&i.day>=0&&i.day<6&&typeof i.title==='string'&&Number.isFinite(Number(i.duration))&&i.duration>=0&&Number.isFinite(Number(i.travel))&&i.travel>=0))throw Error();if(confirm('以備份取代目前行程？')){data=x;save()}}catch{alert('無法匯入，請選擇此網站匯出的有效 JSON 備份')}e.target.value=''};
+const weatherUrl = 'https://www.jma.go.jp/bosai/forecast/data/forecast/471000.json';
+const weatherSource = 'https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=471000';
+const weatherTab = tabs.indexOf('天氣');
+let forecast = null;
+let weatherLoading = false;
+let weatherError = false;
+
+function openWeather() {
+  tab = weatherTab;
+  render();
+  document.getElementById('content').scrollIntoView({block: 'start'});
+}
+
+function backToItinerary() {
+  tab = 0;
+  render();
+  document.getElementById('content').scrollIntoView({block: 'start'});
+}
+
+function readForecast(payload) {
+  const short = payload[0];
+  const week = payload[1];
+  const update = short?.reportDatetime;
+  const weeklyWeather = week?.timeSeries.find(series => series.areas.some(area => area.weatherCodes));
+  const island = weeklyWeather?.areas.find(area => area.area.code === '471000');
+  if (!update || !island || !weeklyWeather.timeDefines.length) throw new Error('Forecast data missing');
+
+  const weeklyTemps = week.timeSeries.find(series => series.areas.some(area => area.tempsMin));
+  const naha = weeklyTemps?.areas.find(area => area.area.code === '91197');
+  const rows = new Map();
+  weeklyWeather.timeDefines.forEach((timestamp, index) => {
+    const date = timestamp.slice(0, 10);
+    const ti = weeklyTemps?.timeDefines.findIndex(time => time.startsWith(date)) ?? -1;
+    rows.set(date, {
+      date, code: island.weatherCodes[index], rain: island.pops?.[index],
+      low: naha?.tempsMin[ti], high: naha?.tempsMax[ti]
+    });
+  });
+
+  const today = update.slice(0, 10);
+  if (!rows.has(today)) {
+    const shortWeather = short.timeSeries.find(series => series.areas.some(area => area.weatherCodes));
+    const south = shortWeather?.areas.find(area => area.area.code === '471010');
+    const si = shortWeather?.timeDefines.findIndex(time => time.startsWith(today)) ?? -1;
+    if (south?.weatherCodes[si]) {
+      rows.set(today, {date: today, code: south.weatherCodes[si], south: true});
+    }
+  }
+  return {update, rows: [...rows.values()].sort((a, b) => a.date.localeCompare(b.date))};
+}
+
+function weatherLabel(code) {
+  const main = {'1':'晴', '2':'陰', '3':'雨', '4':'雪'};
+  return main[String(code)[0]] ? '以' + main[String(code)[0]] + '為主' : '—';
+}
+
+function forecastNumber(value, unit) {
+  return /^-?\d+$/.test(value ?? '') ? esc(value) + unit : '—';
+}
+
+async function loadWeather() {
+  if (weatherLoading) return;
+  weatherLoading = true;
+  weatherError = false;
+  if (tab === weatherTab) render();
+  try {
+    const response = await fetch(weatherUrl, {cache: 'no-cache', signal: AbortSignal.timeout(10000)});
+    if (!response.ok) throw new Error('Forecast request failed');
+    forecast = readForecast(await response.json());
+  } catch {
+    weatherError = true;
+  } finally {
+    weatherLoading = false;
+    if (tab === weatherTab) render();
+  }
+}
+
+function weatherPage() {
+  const date = data.days[day][0];
+  const matching = forecast?.rows.some(row => row.date === date);
+  const status = weatherLoading ? '正在讀取氣象廳預報…'
+    : weatherError ? '暫時無法取得預報，請重新讀取。'
+    : forecast ? (matching ? `已標出您選的日期 ${esc(date)}。` : `目前發布的預報未涵蓋 ${esc(date)}，接近旅遊日期再來查看。`) : '';
+  const cards = (forecast?.rows ?? []).map(row => `
+    <article class="flight-card weather-card${row.date === date ? ' weather-selected' : ''}">
+      <strong>${esc(row.date.slice(5).replace('-', '/'))}</strong>
+      <span class="muted">${row.south ? '本島中南部' : '沖繩本島'}</span>
+      <h3>${weatherLabel(row.code)}</h3>
+      <p>降雨機率 ${forecastNumber(row.rain, '%')}</p>
+      <p class="muted">那霸低溫 ${forecastNumber(row.low, '°C')} · 高溫 ${forecastNumber(row.high, '°C')}</p>
+    </article>`).join('');
+  const update = forecast ? `<p class="muted">日本氣象廳・沖繩氣象台發布 ${esc(forecast.update.slice(0, 16).replace('T', ' '))}（日本時間）。「—」代表這個欄位目前沒有資料。</p>` : '';
+  return `<section class="panel">
+    <div class="row"><h2>沖繩本島天氣</h2><button onclick="backToItinerary()">← 回每日行程</button></div>
+    <p role="status">${status}</p>
+    <div class="weather-grid">${cards}</div>
+    ${update}
+    <div class="tools"><button onclick="loadWeather()" ${weatherLoading ? 'disabled' : ''}>重新讀取</button>
+      <a href="${weatherSource}" target="_blank" rel="noopener noreferrer">氣象廳原頁（另開分頁） ↗</a></div>
+  </section>`;
+}
+
 const outboundFlight = document.getElementById('outboundFlight');
 const returnFlight = document.getElementById('returnFlight');
 outboundFlight.onchange = () => { data.outboundFlight = outboundFlight.value.trim(); save(); };
