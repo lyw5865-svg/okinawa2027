@@ -82,8 +82,8 @@ const initial = {
     ],
     [
       "2027-02-08",
-      "購物・南部",
-      720
+      "PARCO・泊港市場",
+      600
     ],
     [
       "2027-02-09",
@@ -226,28 +226,14 @@ const initial = {
       "status": "待確認"
     },
     {
-      "id": "3ca8d88f-5469-4fc0-9e40-000741e006bc",
-      "day": 3,
-      "title": "Outlet 購物",
-      "duration": 180,
-      "travel": 35,
-      "status": "待確認"
-    },
-    {
-      "id": "807d5cea-8db8-4964-81b9-6902e6f624c8",
-      "day": 3,
-      "title": "晚餐與返回住宿",
-      "duration": 100,
-      "travel": 30,
-      "status": "待確認"
-    },
-    {
       "id": "2c7fa6c2-a7fd-434d-9aee-0794b2a12b0a",
-      "day": 4,
-      "title": "PARCO CITY",
-      "duration": 150,
-      "travel": 25,
-      "status": "待確認"
+      "day": 3,
+      "title": "年輕人｜PARCO CITY 購物與午餐",
+      "duration": 210,
+      "travel": 0,
+      "status": "已確定",
+      "start": "10:00",
+      "place": "沖縄 浦添 PARCO CITY"
     },
     {
       "id": "fa1ed46d-57ed-4127-8e8a-31db40a6618f",
@@ -329,15 +315,67 @@ const initial = {
       "duration": 90,
       "travel": 15,
       "status": "待確認"
+    },
+    {
+      "id": "tomari-20270208-gather",
+      "day": 3,
+      "title": "EXES 那霸接長輩集合",
+      "duration": 30,
+      "travel": 30,
+      "status": "待確認",
+      "place": "OKINAWA KARIYUSHI RESORT EXES NAHA",
+      "start": ""
+    },
+    {
+      "id": "tomari-20270208-market",
+      "day": 3,
+      "title": "泊港漁市場｜泊いゆまち",
+      "duration": 60,
+      "travel": 15,
+      "status": "已確定",
+      "place": "泊いゆまち 那覇市港町1-1-18",
+      "start": ""
+    },
+    {
+      "id": "tomari-20270208-rest",
+      "day": 3,
+      "title": "午後彈性休息",
+      "duration": 60,
+      "travel": 0,
+      "status": "待確認",
+      "place": "",
+      "start": ""
+    },
+    {
+      "id": "tomari-20270208-dinner",
+      "day": 3,
+      "title": "晚餐｜泊港周邊餐廳待選",
+      "duration": 90,
+      "travel": 15,
+      "status": "待確認",
+      "place": "",
+      "start": "17:00"
+    },
+    {
+      "id": "tomari-20270208-hotel",
+      "day": 3,
+      "title": "返回 EXES 那霸",
+      "duration": 0,
+      "travel": 20,
+      "status": "待確認",
+      "place": "OKINAWA KARIYUSHI RESORT EXES NAHA",
+      "start": ""
     }
   ],
-  "revision": 4,
+  "revision": 5,
   "stayNorth": "HIYORI Ocean Resort Okinawa｜2/5–2/7（2 晚）",
   "stayNaha": "OKINAWA KARIYUSHI RESORT EXES NAHA｜2/7–2/10（3 晚）",
   "car": "Toyota Alphard／Vellfire，8 人座；車款、行李容量與訂單待確認"
 };
 
 const diningPlaces = [
+  {match: /泊港漁市場|泊いゆまち/, name: '泊いゆまち（泊港漁市場）', query: '泊いゆまち 那覇市港町1-1-18', intro: '鮮魚、生魚片及沖繩海產直賣市場。現行公布年中無休、06:00–18:00，各攤營業不同，午後可能售完提早收攤。建議 14:00–15:00 間到訪。', source: 'https://www.tomariiyumachi.com/'},
+
   {match: /うるま食堂/, name: 'うるま食堂', query: '沖縄 うるま食堂', intro: '第一天的午餐候選。店址與菜單待確認，地圖連結會開啟搜尋結果。'},
   {match: /きしもと食堂|岸本食堂/, name: 'きしもと食堂 八重岳店', query: '沖縄 本部町 きしもと食堂 八重岳店', intro: '老字號沖繩麵店，招牌是柴魚高湯搭配有嚼勁的粗麵，也有沖繩炊飯。'},
   {match: /ぱいかじ/, name: '沖縄の台所 ぱいかじ 恩納本店', query: '沖縄の台所 ぱいかじ 恩納本店', intro: '恩納村的沖繩料理居酒屋，供應琉球家常菜與下酒小菜。8 人訂位待確認。'},
@@ -351,6 +389,7 @@ function restaurantCards(item) {
     <div class="note dining-card">
       <strong>${esc(restaurant.name)}</strong>
       <p>${esc(restaurant.intro)}</p>
+      ${restaurant.source ? `<a href="${esc(restaurant.source)}" target="_blank" rel="noopener noreferrer">官方資訊 ↗</a> · ` : ''}
       <a href="https://www.google.com/maps/search/?api=1&amp;query=${encodeURIComponent(restaurant.query)}" target="_blank" rel="noopener noreferrer">在 Google 地圖查看 ↗</a>
     </div>`).join('');
 }
