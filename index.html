@@ -87,7 +87,7 @@ const initial = {
     ],
     [
       "2027-02-09",
-      "市區・還車",
+      "市區・接送與還車",
       720
     ],
     [
@@ -236,38 +236,6 @@ const initial = {
       "place": "沖縄 浦添 PARCO CITY"
     },
     {
-      "id": "fa1ed46d-57ed-4127-8e8a-31db40a6618f",
-      "day": 4,
-      "title": "新都心／DFS",
-      "duration": 120,
-      "travel": 25,
-      "status": "待確認"
-    },
-    {
-      "id": "cbed9aa0-dd62-44aa-b1cc-13ab0155b907",
-      "day": 4,
-      "title": "還車前準備／加油",
-      "duration": 45,
-      "travel": 30,
-      "status": "待確認"
-    },
-    {
-      "id": "7e1d2817-67a1-49fe-af38-be9241d2b106",
-      "day": 4,
-      "title": "18:00 前完成還車",
-      "duration": 15,
-      "travel": 15,
-      "status": "已確定"
-    },
-    {
-      "id": "1f619cd9-7946-4bb1-848d-d79f224e6a16",
-      "day": 4,
-      "title": "晚餐／返回住宿",
-      "duration": 90,
-      "travel": 30,
-      "status": "待確認"
-    },
-    {
       "id": "69b6b0b0-39be-408f-9e93-7a6413d3b3df",
       "day": 5,
       "title": "EXES 那霸退房",
@@ -365,9 +333,67 @@ const initial = {
       "status": "待確認",
       "place": "OKINAWA KARIYUSHI RESORT EXES NAHA",
       "start": ""
+    },
+    {
+      "id": "return-20270209-shopping",
+      "day": 4,
+      "title": "新都心／DFS 購物與午餐",
+      "duration": 160,
+      "travel": 20,
+      "status": "待確認",
+      "place": "沖縄 DFS 那覇",
+      "details": "12:00 從飯店出發，購物與午餐時間可彈性分配，15:00 左右啟程回飯店。"
+    },
+    {
+      "id": "return-20270209-dropoff",
+      "day": 4,
+      "title": "送長輩回 EXES 那霸｜16:00 前",
+      "duration": 15,
+      "travel": 30,
+      "status": "已確定",
+      "place": "OKINAWA KARIYUSHI RESORT EXES NAHA",
+      "deadline": 960,
+      "details": "暫排 15:30 抵達飯店。長輩之後可選擇飯店休息，或自行逛國際通、琉貿百貨；其餘人前往還車。"
+    },
+    {
+      "id": "return-20270209-fuel",
+      "day": 4,
+      "title": "自行前往加油、整理車輛",
+      "duration": 30,
+      "travel": 30,
+      "status": "待確認",
+      "details": "先在飯店卸下行李與採買品，再依租車公司的規定加油。長輩留在那霸市區。"
+    },
+    {
+      "id": "return-20270209-return",
+      "day": 4,
+      "title": "自行辦理還車｜18:00 前完成",
+      "duration": 30,
+      "travel": 15,
+      "status": "已確定",
+      "details": "暫排 17:00–17:30 辦理，預留 30 分鐘緩衝至租期截止；實際車程及還車手續待確認。"
+    },
+    {
+      "id": "return-20270209-back",
+      "day": 4,
+      "title": "還車後返回那霸市區集合",
+      "duration": 0,
+      "travel": 40,
+      "status": "待確認",
+      "place": "OKINAWA KARIYUSHI RESORT EXES NAHA",
+      "details": "還車後的接駁、計程車或其他交通待確認，暫排 18:10 回到飯店附近。"
+    },
+    {
+      "id": "return-20270209-dinner",
+      "day": 4,
+      "title": "晚餐｜那霸市區餐廳待選",
+      "duration": 90,
+      "travel": 20,
+      "status": "待確認",
+      "details": "暫排 18:30 與長輩一起晚餐，餐廳與集合地點待確認。"
     }
   ],
-  "revision": 5,
+  "revision": 6,
   "stayNorth": "HIYORI Ocean Resort Okinawa｜2/5–2/7（2 晚）",
   "stayNaha": "OKINAWA KARIYUSHI RESORT EXES NAHA｜2/7–2/10（3 晚）",
   "car": "Toyota Alphard／Vellfire，8 人座；車款、行李容量與訂單待確認"
@@ -411,7 +437,7 @@ function render(){
   document.getElementById('itineraryUpdate').hidden = data.revision === initial.revision;
   outboundFlight.value = flightNote(data.outboundFlight);
   returnFlight.value = data.returnFlight ?? '';
-  document.getElementById('tabs').innerHTML=tabs.map((x,i)=>`<button class="${i===tab?'active':''}" onclick="tab=${i};render()">${x}</button>`).join('');let c=document.getElementById('content');if(tab===0){let t=Number(data.days[day][2]);let cards=list().map((x,i)=>{t+=Number(x.travel);if(x.start)t=x.start.split(':').reduce((a,b,i)=>a+Number(b)*(i?1:60),0);let start=t;t+=Number(x.duration);return `<div class="entry"><div class="time">${tm(start)}<div class="muted">${tm(t)}</div></div><div class="card"><div class="row"><h3>${esc(x.title)}</h3><span class="tag ${x.status==='已確定'?'ok':''}">${esc(x.status)}</span></div><div class="muted">停留 ${x.duration} 分鐘 · 前段移動 ${x.travel} 分鐘（估）</div>${restaurantCards(x)}${day===4&&x.title.includes('完成還車')&&t>1080?'<p style="color:#b54b39">⚠ 排程超出 18:00 還車期限，請縮短前面行程。</p>':''}<div class="tools"><button onclick="edit('${x.id}')">編輯</button><button aria-label="上移" onclick="move('${x.id}',-1)">↑</button><button aria-label="下移" onclick="move('${x.id}',1)">↓</button><button onclick="removeItem('${x.id}')">刪除</button><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place(x)||'沖縄')}" target="_blank" rel="noopener">地圖 ↗</a></div></div></div>`}).join('');c.innerHTML=`<div class="dates">${data.days.map((d,i)=>`<button class="${day===i?'active':''}" onclick="day=${i};render()"><span class="tiny">DAY 0${i+1}</span><strong>${esc(d[0].slice(5).replace('-',' / '))}</strong><span class="muted">${esc(d[1])}</span></button>`).join('')}</div><div class="layout"><section><div class="row"><div><span class="tiny">YOUR DAILY PLAN</span><h2>${esc(data.days[day][1])}</h2></div><button onclick="edit(null)">＋ 新增一站</button></div><div class="row"><label>日期 <input type="date" value="${esc(data.days[day][0])}" onchange="data.days[day][0]=this.value;save()"></label><label>今日起點 <input type="time" value="${tm(Number(data.days[day][2]))}" onchange="data.days[day][2]=this.value.split(':').reduce((a,b,i)=>a+Number(b)*(i?1:60),0);save()"></label></div><div class="note weather-note">
+  document.getElementById('tabs').innerHTML=tabs.map((x,i)=>`<button class="${i===tab?'active':''}" onclick="tab=${i};render()">${x}</button>`).join('');let c=document.getElementById('content');if(tab===0){let t=Number(data.days[day][2]);let cards=list().map((x,i)=>{t+=Number(x.travel);if(x.start)t=x.start.split(':').reduce((a,b,i)=>a+Number(b)*(i?1:60),0);let start=t;t+=Number(x.duration);return `<div class="entry"><div class="time">${tm(start)}<div class="muted">${tm(t)}</div></div><div class="card"><div class="row"><h3>${esc(x.title)}</h3><span class="tag ${x.status==='已確定'?'ok':''}">${esc(x.status)}</span></div><div class="muted">停留 ${x.duration} 分鐘 · 前段移動 ${x.travel} 分鐘（估）</div>${x.details ? `<p class="muted">${esc(x.details)}</p>` : ''}${restaurantCards(x)}${x.deadline && t > x.deadline ? '<p style="color:#b54b39">⚠ 已超過 16:00 回飯店的安排，請縮短前面的行程。</p>' : ''}${day===4&&(x.title.includes('完成還車')||x.id==='return-20270209-return')&&t>1080?'<p style="color:#b54b39">⚠ 排程超出 18:00 還車期限，請縮短前面行程。</p>':''}<div class="tools"><button onclick="edit('${x.id}')">編輯</button><button aria-label="上移" onclick="move('${x.id}',-1)">↑</button><button aria-label="下移" onclick="move('${x.id}',1)">↓</button><button onclick="removeItem('${x.id}')">刪除</button><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place(x)||'沖縄')}" target="_blank" rel="noopener">地圖 ↗</a></div></div></div>`}).join('');c.innerHTML=`<div class="dates">${data.days.map((d,i)=>`<button class="${day===i?'active':''}" onclick="day=${i};render()"><span class="tiny">DAY 0${i+1}</span><strong>${esc(d[0].slice(5).replace('-',' / '))}</strong><span class="muted">${esc(d[1])}</span></button>`).join('')}</div><div class="layout"><section><div class="row"><div><span class="tiny">YOUR DAILY PLAN</span><h2>${esc(data.days[day][1])}</h2></div><button onclick="edit(null)">＋ 新增一站</button></div><div class="row"><label>日期 <input type="date" value="${esc(data.days[day][0])}" onchange="data.days[day][0]=this.value;save()"></label><label>今日起點 <input type="time" value="${tm(Number(data.days[day][2]))}" onchange="data.days[day][2]=this.value.split(':').reduce((a,b,i)=>a+Number(b)*(i?1:60),0);save()"></label></div><div class="note weather-note">
   <div><strong>每日天氣</strong><br><span class="muted">沖繩本島｜日本氣象廳預報</span></div>
   <button type="button" onclick="openWeather()">查看天氣 →</button>
 </div><p class="muted">修改起點、車程或停留時間，後續站點自動更新；選填的指定開始時間會固定，請留意衝突。</p>${cards||'<p>今天尚無行程，新增一站開始安排。</p>'}</section><aside><div class="panel"><div class="tiny">ROUTE OVERVIEW</div><h2>今天怎麼走</h2><div class="route">${list().map((x,i)=>`<span>${i+1} · ${esc(x.title.split('｜')[0])}</span>`).join(' → ')}</div><iframe title="當日區域地圖" loading="lazy" src="https://maps.google.com/maps?q=${encodeURIComponent(day<2?'沖縄 '+(day===1?'八重岳':'恩納村'):'沖縄 那覇')}&output=embed"></iframe><p class="muted">區域地圖供定位；導航僅包含已填地點的站點，未定住宿、餐廳與站點不納入。地址與車程待確認。</p><a href="${maps()}" target="_blank" rel="noopener">Google 地圖：已填地點的移動順序 ↗</a></div><div class="panel"><h3>可替換／休息候選</h3><select class="full" id="alternative"><option>直接回飯店休息</option><option>超市／商場內休息</option><option>嘉手納驛之館</option><option>讀谷短暫停留</option><option>美國村短暫停留</option><option>琉貿百貨用餐</option></select><p class="muted">新增為「待確認」，可再上移到希望的位置。</p><button class="full" onclick="addAlternative()">加入今日候選</button></div></aside></div>`}else if(tab===weatherTab){
